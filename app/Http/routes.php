@@ -33,6 +33,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('contact', function () {
         return view('contact');
     });
+
     Route::post('contact/send', 'ContactController@send');
 
     Route::get('prices', function () {
