@@ -16,7 +16,7 @@ class CreateMovieTable extends Migration
             $table->increments('id');
             $table->string('title', 100);
             $table->integer('genre_id')->unsigned()->foreign('genre_id')->reference('id')->on('genres')->onDelete('cascade');
-            $table->string('url_trailer', 255);
+            $table->string('yt_video_id', 255);
             $table->integer('length')->unsigned();
             $table->string('plot', 1000);
             $table->integer('year');

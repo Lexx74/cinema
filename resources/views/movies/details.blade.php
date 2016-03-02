@@ -12,7 +12,7 @@
                 <div class="modal-body">
                     <!-- 16:9 aspect ratio -->
                     <div class="embed-responsive embed-responsive-16by9">
-                        <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/z5Bwz0idx7s" allowfullscreen></iframe>
+                        <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/{{ $movie->yt_video_id }}" allowfullscreen></iframe>
                     </div>
                 </div>
                 <!--<div class="modal-footer">
@@ -25,7 +25,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-3">
-                <img src="http://placehold.it/300x400" class="img-responsive">
+                <img src="{{ url('/') . $movie->uri_poster }}" class="img-responsive">
                 <br>
                 <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#trailerModal">Trailer</button>
             </div>

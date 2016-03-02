@@ -18,8 +18,8 @@
                     </div>
                 @endif
 
-                <form method="POST" action="{{ url('/dashboard/storemovie') }}">
-                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                <form method="POST" action="{{ url('/dashboard/storemovie') }}" enctype="multipart/form-data">
+                    {{ csrf_field() }}
                     <div class="form-group">
                         <label for="title">Title</label>
                         <input type="text" class="form-control" name="title" id="title" placeholder="Title of the movie" required>
@@ -33,8 +33,8 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="trailer_url">Trailer URL</label>
-                        <input type="url" class="form-control" id="trailer_url" name="trailer_url" placeholder="URL of the trailer" required>
+                        <label for="yt_video_id">Youtube video ID</label>
+                        <input type="text" class="form-control" id="yt_video_id" name="yt_video_id" placeholder="www.youtube.com/?v=VIDEO_ID" required>
                     </div>
                     <div class="form-group">
                         <label for="length">Length</label>
@@ -58,7 +58,7 @@
                     </div>
                     <div class="form-group">
                         <label for="poster">Poster</label>
-                        <input type="file" class="form-control" id="poster" name="poster">
+                        <input type="file" class="form-control" id="poster" name="poster" required>
                     </div>
                     <button type="submit" class="btn btn-default">Submit</button>
                 </form>

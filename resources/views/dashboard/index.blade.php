@@ -18,7 +18,7 @@
                         <p>From here you can access to every page of your dashboard :)</p>
                     </div>
                 </div>
-                @if ($isAdmin)
+                @if (Session::get('isAdmin'))
                     @include('parts.customer_repo')
                 @endif
             </div>

@@ -7,6 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 class Movie extends Model
 {
     protected $fillable = [
-        'title', 'genre_id', 'url_trailer', 'length', 'plot', 'year', 'country', 'director', 'uri_poster'
+        'title',
+        'genre',
+        'year',
+        'director',
+        'yt_video_id',
+        'length',
+        'plot',
+        'country',
+        'uri_poster'
     ];
 }

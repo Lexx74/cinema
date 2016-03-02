@@ -22,7 +22,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <span class="glyphicon glyphicon-trash"></span> <a href="#">Delete a movie</a>
+                            <span class="glyphicon glyphicon-trash"></span> <a href="{{ url('/dashboard/delete-movie') }}">Delete a movie</a>
                         </td>
                     </tr>
                 </table>
@@ -81,7 +81,7 @@
             </div>
         </div>
     </div>
-    @if($isAdmin)
+    @if(Session::get('isAdmin'))
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h4 class="panel-title">

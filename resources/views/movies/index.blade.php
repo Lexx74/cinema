@@ -6,7 +6,7 @@
             @foreach($movies as $movie)
                 <div class="col-md-3">
                     <a href="{{ url('/movies', $movie->id) }}" class="thumbnail" id="{{ $movie->id }}">
-                        <img class="img-responsive center-block" src="http://placehold.it/300x300" alt="poster-img">
+                        <img class="img-responsive center-block" src="{{ url('/') . $movie->uri_poster }}" alt="poster-img">
                     </a>
                 </div>
             @endforeach

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Genre;
+use App\Movie;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -10,6 +11,9 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Session;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class DashboardController extends Controller
 {
@@ -29,9 +33,13 @@ class DashboardController extends Controller
     public function index()
     {
         $isAdmin = $this->getIsAdmin(Auth::user());
-        $registeredUsers = User::all()->count();
 
-        return view('dashboard.index')->with(['isAdmin' => $isAdmin, 'registeredUsers' => $registeredUsers]);
+        // Save isAdmin in a session so i don't have to pass it to every page
+        // Do I have to put it in the constructor?
+        Session::put('isAdmin', $isAdmin);
+
+        $registeredUsers = User::all()->count();
+        return view('dashboard.index')->with('registeredUsers', $registeredUsers);
     }
 
     /**
@@ -76,19 +84,68 @@ class DashboardController extends Controller
         $movie->genre_id = $request->input('genre');
         $movie->year = $request->input('year');
         $movie->director = $request->input('director');
-        $movie->url_trailer = $request->input('trailer_url');
+        $movie->yt_video_id = $request->input('yt_video_id');
         $movie->length = $request->input('length');
         $movie->plot = $request->input('plot');
         $movie->country = $request->input('country');
-        // TODO
-        /*
+
         if ($request->file('poster')->isValid()) {
-            // $request->file('photo')->move($destinationPath, $fileName);
-        }*/
+            // check if it is an image
+            $this->validate($request, [
+                'poster' => 'image',
+            ]);
+
+            // get the right file extension
+            $fileExtension = $request->file('poster')->getClientOriginalExtension();
+
+            // then I can rename the file
+            $fileName = 'poster_' . $request->input('title') . '_' . $request->input('year') . '.' . $fileExtension;
+
+            // moving the image in public/movie_poster
+            $folder = '/movie_poster/';
+            // move (destination, new_filename);
+            $request->file('poster')->move(base_path() . '/public/' . $folder, $fileName);
+
+            // saving in the db where the file is
+            $movie->uri_poster = $folder . $fileName;
+        }
+
+        // save data on db
         $movie->save();
 
         \Session::flash('success_flash_message', 'Your movie has been created.');
 
         return redirect('dashboard');
+    }
+
+    /**
+     * Shows the view where you can choose what movie delete
+     * @return $this
+     */
+    public function deleteMoviePage()
+    {
+        $movies = Movie::all();
+        $disable = '';
+
+        if ($movies->isEmpty())
+        {
+            // I have to disable the button Delete
+            $disable = 'disabled';
+        }
+        return view('dashboard.delete-movie')->with(['movies' => $movies, 'disable' => $disable]);
+    }
+
+    /**
+     * Delete the selected movie from the db
+     * @param Request $request
+     * @return view
+     */
+    public function deleteMovie(Request $request)
+    {
+        Movie::findOrFail($request->input('movies'))->delete();
+        \Session::flash('success_flash_message', 'The selected movie has been deleted.');
+
+        $movies = Movie::all();
+        return view('dashboard.delete-movie')->with('movies', $movies);
     }
 }

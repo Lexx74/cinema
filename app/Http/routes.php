@@ -46,5 +46,7 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::get('dashboard', 'DashboardController@index');
     Route::get('dashboard/addmovie', 'DashboardController@addMovie');
-    Route::post('dashboard/storeMovie', 'DashboardController@storeMovie');
+    Route::get('dashboard/delete-movie', 'DashboardController@deleteMoviePage');
+    Route::post('dashboard/delete-movie', 'DashboardController@deleteMovie');
+    Route::post('dashboard/storemovie', 'DashboardController@storeMovie');
 });
