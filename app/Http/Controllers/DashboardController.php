@@ -148,4 +148,100 @@ class DashboardController extends Controller
         $movies = Movie::all();
         return view('dashboard.delete-movie')->with('movies', $movies);
     }
+
+    /**
+     * @return The page with the reports
+     */
+    public function movieReports()
+    {
+        return view('dashboard.movie-repo');
+    }
+
+    /**
+     * @return Data for creating the pie of movies by genre
+     */
+    public function getGenresPie()
+    {
+        $moviesAndGenres = Movie::join('genres', 'genres.id', '=', 'genre_id')
+            ->select(DB::raw('description, count(*) as value'))
+            ->groupBy('description')
+            ->get();
+
+        foreach($moviesAndGenres as $data)
+        {
+            switch($data->description)
+            {
+                case 'Action':
+                    $data['label'] = 'Action';
+                    $data['color'] = "#878BB6";
+                    break;
+                case 'Drama':
+                    $data['label'] = 'Drama';
+                    $data['color'] = "#4ACAB4";
+                    break;
+                case 'Animation':
+                    $data['label'] = 'Animation';
+                    $data['color'] = "#FF8153";
+                    break;
+                case 'Sci-Fi':
+                    $data['label'] = 'Sci-Fi';
+                    $data['color'] = "#FFEA88";
+                    break;
+                default:
+                    $data['label'] = 'Unknown';
+                    break;
+            }
+        }
+        return $moviesAndGenres;
+    }
+
+    /**
+     * @return data for create the pie of movies by country
+     */
+    public function getMoviesPerCountryPie()
+    {
+        $moviesAndCountries = Movie::select(DB::raw('country, count(*) as value'))->groupBy('country')->get();
+
+        foreach($moviesAndCountries as $data)
+        {
+            switch($data->country)
+            {
+                case 'UK':
+                    $data['label'] = 'UK';
+                    $data['color'] = "#878BB6";
+                    break;
+                case 'Italy':
+                    $data['label'] = 'Italy';
+                    $data['color'] = "#4ACAB4";
+                    break;
+                case 'USA':
+                    $data['label'] = 'USA';
+                    $data['color'] = "#FF8153";
+                    break;
+                case 'France':
+                    $data['label'] = 'France';
+                    $data['color'] = "#FFEA88";
+                    break;
+                default:
+                    $data['label'] = 'Unknown';
+                    break;
+            }
+        }
+        return $moviesAndCountries;
+    }
+
+    /**
+     * @return data for creating the director pie
+     */
+    public function getMoviesPerDirectorPie()
+    {
+        $moviesAndDirectors = Movie::select(DB::raw('director, count(*) as value'))->groupBy('director')->get();
+
+        foreach($moviesAndDirectors as $data)
+        {
+            // set the label as the name of the director
+            $data['label'] = $data->director;
+        }
+        return $moviesAndDirectors;
+    }
 }

@@ -109,7 +109,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <span class="glyphicon glyphicon-shopping-cart"></span><a href="http://www.jquery2dotnet.com">Shopping Cart</a>
+                                <span class="glyphicon glyphicon-film"></span> <a href="{{ url('/dashboard/movie-repo') }}">Movies</a>
                             </td>
                         </tr>
                     </table>

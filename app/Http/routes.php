@@ -47,6 +47,10 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('dashboard', 'DashboardController@index');
     Route::get('dashboard/addmovie', 'DashboardController@addMovie');
     Route::get('dashboard/delete-movie', 'DashboardController@deleteMoviePage');
+    Route::get('dashboard/get-genres-pie', 'DashboardController@getGenresPie');
+    Route::get('dashboard/get-country-pie', 'DashboardController@getMoviesPerCountryPie');
+    Route::get('dashboard/get-director-pie', 'DashboardController@getMoviesPerDirectorPie');
+    Route::get('dashboard/movie-repo', 'DashboardController@movieReports');
     Route::post('dashboard/delete-movie', 'DashboardController@deleteMovie');
     Route::post('dashboard/storemovie', 'DashboardController@storeMovie');
 });
